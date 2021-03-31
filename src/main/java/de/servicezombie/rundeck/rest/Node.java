@@ -1,24 +1,15 @@
-package de.servicezombie.rundeck;
+package de.servicezombie.rundeck.rest;
 
-public class Option {
+public class Node {
 
 	private String name;
-	private String value;
-
-	public String getName() {
-		return name;
-	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -26,7 +17,6 @@ public class Option {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -38,23 +28,18 @@ public class Option {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Option other = (Option) obj;
+		Node other = (Node) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Option [name=" + name + ", value=" + value + "]";
+		return name;
 	}
 
 }

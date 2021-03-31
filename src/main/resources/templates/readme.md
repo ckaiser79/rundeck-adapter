@@ -1,0 +1,1 @@
+Add thymeleaf templates into this directory.

@@ -1,6 +1,16 @@
 package de.servicezombie.zulip;
 
-import de.servicezombie.rundeck.Notification;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StringWriter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.thymeleaf.templatemode.TemplateMode;
+
+import de.servicezombie.rundeck.rest.Notification;
+import de.servicezombie.thymeleaf.TemplateWriter;
+import de.servicezombie.thymeleaf.ThymeleadContextFactory;
 
 /**
  * read from a template use template to create a zulip message;
@@ -10,40 +20,71 @@ import de.servicezombie.rundeck.Notification;
  */
 public class NotificationToZulipMessageTransformer {
 
+	private static final Logger LOG = LoggerFactory.getLogger(NotificationToZulipMessageTransformer.class);
+
 	private String stream;
 	private String topic;
-	private String user;
-	private String token;
-	private String endpoint;
-	
-	public ZulipMessage transform(Notification notification) {
-		final String message = readTemplate(notification);
-		return new ZulipMessage(stream, topic, message, user, token, endpoint);
+	private final ZulipEndpoint endpoint;
+
+	public NotificationToZulipMessageTransformer(final ZulipEndpoint endpoint) {
+		this.endpoint = endpoint;
 	}
 
-	private String readTemplate(Notification notification) {
-		// TODO Auto-generated method stub
-		return null;
+	public ZulipRequest transform(Notification notification) {
+
+		ZulipRequest result= new ZulipRequest(endpoint);
+
+		final ThymeleadContextFactory contextFactory = new ZulipMessageThymeleafContextFactory(result, notification);
+		try {			
+			
+			final String message = readTemplate(notification, contextFactory);
+			
+			result.setContent(message);
+			result.setType(ZulipType.STREAM);
+			result.setTo(stream.split("[,: ]"));
+			result.setTopic(topic);
+
+		}
+		catch(FileNotFoundException e) {
+			LOG.warn("file does not exist for {}", notification);
+			result = null;
+		}
+
+		return result;
+	}
+
+	private String readTemplate(final Notification notification, final ThymeleadContextFactory contextFactory) throws FileNotFoundException {
+
+		if (LOG.isTraceEnabled())
+			LOG.trace("readTemplate: >> {}, {}", notification, contextFactory);
+
+		final String templateName = "rundeck." + notification.getStatus();
+		String result;
+
+		try (final StringWriter out = new StringWriter()) {
+			final TemplateWriter templateWriter = new TemplateWriter(templateName, TemplateMode.TEXT, "UTF8");
+
+			templateWriter.write(contextFactory, out);
+			result = out.toString();
+		} catch (FileNotFoundException e) {
+			throw e;
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+			result = null;
+		}
+
+		if (LOG.isTraceEnabled())
+			LOG.trace("readTemplate: << \n{}", result);
+
+		return result;
 	}
 
 	public void setStream(String stream) {
 		this.stream = stream;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
-	}
-
 	public void setTopic(String topic) {
 		this.topic = topic;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-	
-	public void setEndpoint(String endpoint) {
-		this.endpoint = endpoint;
 	}
 
 }

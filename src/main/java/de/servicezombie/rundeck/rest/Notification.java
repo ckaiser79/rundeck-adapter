@@ -1,4 +1,4 @@
-package de.servicezombie.rundeck;
+package de.servicezombie.rundeck.rest;
 
 import java.util.ArrayList;
 import java.util.List;
