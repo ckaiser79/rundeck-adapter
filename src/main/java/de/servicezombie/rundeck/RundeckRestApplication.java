@@ -8,4 +8,6 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationPath("/rundeck")
 public class RundeckRestApplication extends Application {
+
+
 }

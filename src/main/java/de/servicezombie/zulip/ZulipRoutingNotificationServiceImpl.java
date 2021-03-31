@@ -8,8 +8,8 @@ import javax.inject.Named;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
+import de.servicezombie.rundeck.Notification;
 import de.servicezombie.rundeck.NotificationService;
-import de.servicezombie.rundeck.rest.Notification;
 
 @Named
 public class ZulipRoutingNotificationServiceImpl implements NotificationService {

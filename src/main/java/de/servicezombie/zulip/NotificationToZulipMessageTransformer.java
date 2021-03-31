@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import de.servicezombie.rundeck.rest.Notification;
+import de.servicezombie.rundeck.Notification;
 import de.servicezombie.thymeleaf.TemplateWriter;
 import de.servicezombie.thymeleaf.ThymeleadContextFactory;
 

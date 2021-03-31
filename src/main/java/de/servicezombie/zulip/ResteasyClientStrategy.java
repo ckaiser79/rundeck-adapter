@@ -1,7 +1,9 @@
 package de.servicezombie.zulip;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
@@ -70,8 +72,12 @@ public class ResteasyClientStrategy implements RestClientStrategy {
 	}
 
 	private String toArrayString(String[] to) {
-		// TODO Auto-generated method stub
-		return null;
+		if(to == null)
+			return "[]";
+		
+		final Iterable<String> iterable = Arrays.asList(to);
+		return "[" + org.thymeleaf.util.StringUtils.join(iterable, ',') + "]";
+		
 	}
 
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.thymeleaf.context.Context;
 
-import de.servicezombie.rundeck.rest.Notification;
+import de.servicezombie.rundeck.Notification;
 import de.servicezombie.thymeleaf.ThymeleadContextFactory;
 
 public class ZulipMessageThymeleafContextFactory implements ThymeleadContextFactory {
