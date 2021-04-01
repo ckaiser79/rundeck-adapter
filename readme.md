@@ -8,6 +8,12 @@ This is a WAR file, which offers webhooks for [Rundeck](https://www.rundeck.com/
 
 My motivation was to get some hands on java microprofile - especially metrics and config.
 
+## Modules
+
+- `rundeck-adapter-base` - api and utilities
+- `rundeck-zulip-adapter` - logic to send messages to zulip
+- `rundeck-adapter-app` - servlet dependencies, rest controller
+
 # Compile
 
 ```
