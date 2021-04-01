@@ -4,6 +4,8 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import de.servicezombie.rundeck.MetricsInvocationCallback;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.client.Entity;
@@ -21,10 +23,13 @@ import org.slf4j.LoggerFactory;
 
 import de.servicezombie.rundeck.LoggingRestClientFilter;
 
+/** 
+ * sending requests using jboss resteasy, I did an interface to enable non remote testing. 
+ */
 @Named
 public class ResteasyClientStrategy implements RestClientStrategy {
 
-	static final Logger LOG = LoggerFactory.getLogger(ResteasyClientStrategy.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ResteasyClientStrategy.class);
 
 	@Inject 
 	private MetricRegistry metricRegistry;

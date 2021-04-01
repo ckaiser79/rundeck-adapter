@@ -11,6 +11,9 @@ import org.eclipse.microprofile.config.ConfigProvider;
 import de.servicezombie.rundeck.Notification;
 import de.servicezombie.rundeck.NotificationService;
 
+/**
+ * Implementation to route notifications to a Zulip server. 
+ */
 @Named
 public class ZulipRoutingNotificationServiceImpl implements NotificationService {
 

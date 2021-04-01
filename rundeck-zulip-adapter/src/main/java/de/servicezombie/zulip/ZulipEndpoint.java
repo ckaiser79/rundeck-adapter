@@ -1,8 +1,7 @@
 package de.servicezombie.zulip;
 
 /**
- * Zulip authentication informations.
- *
+ * Zulip authentication and connection informations.
  */
 public class ZulipEndpoint {
 

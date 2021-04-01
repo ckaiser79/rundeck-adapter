@@ -15,10 +15,7 @@ import de.servicezombie.thymeleaf.TemplateWriter;
 import de.servicezombie.thymeleaf.ThymeleadContextFactory;
 
 /**
- * read from a template use template to create a zulip message;
- * 
- * @author chris
- *
+ * read from a template to create a zulip message for a notification
  */
 public class NotificationToZulipMessageTransformer {
 
@@ -27,11 +24,16 @@ public class NotificationToZulipMessageTransformer {
 	private String stream;
 	private String topic;
 	private final ZulipEndpoint endpoint;
-
+	
+	/** . */
 	public NotificationToZulipMessageTransformer(final ZulipEndpoint endpoint) {
 		this.endpoint = endpoint;
 	}
 
+	/**
+	 * @param notification rundeck data
+	 * @return zulip data 
+	 */
 	public ZulipRequest transform(Notification notification) {
 
 		ZulipRequest result = new ZulipRequest(endpoint);

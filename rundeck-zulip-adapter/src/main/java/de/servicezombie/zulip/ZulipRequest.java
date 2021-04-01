@@ -2,6 +2,7 @@ package de.servicezombie.zulip;
 
 import java.util.Arrays;
 
+/** . */
 public class ZulipRequest {
 
 	private ZulipType type = ZulipType.STREAM;
@@ -13,6 +14,9 @@ public class ZulipRequest {
 	
 	private final ZulipEndpoint endpoint;
 
+	/**
+	 * @param endpoint .
+	 */
 	public ZulipRequest(ZulipEndpoint endpoint) {
 		this.endpoint = endpoint;
 	}

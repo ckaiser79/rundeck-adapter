@@ -9,16 +9,31 @@ import org.thymeleaf.context.Context;
 import de.servicezombie.rundeck.Notification;
 import de.servicezombie.thymeleaf.ThymeleadContextFactory;
 
+/**
+ * Make varaibles available in Thymeleaf templates.
+ */
 public class ZulipMessageThymeleafContextFactory implements ThymeleadContextFactory {
 
 	private final ZulipRequest zulipMessage;
 	private final Notification notification;
 	private final Locale locale;
 	
+	/**
+	 * Default Locale is US.
+	 * 
+	 * @param zulipMessage .
+	 * @param notification .
+	 */
 	public ZulipMessageThymeleafContextFactory(final ZulipRequest zulipMessage, final Notification notification) {
 		this(zulipMessage, notification, Locale.US);
 	}
 	
+	/**
+	 * 
+	 * @param zulipMessage .
+	 * @param notification .
+	 * @param locale .
+	 */
 	public ZulipMessageThymeleafContextFactory(final ZulipRequest zulipMessage, final Notification notification, final Locale locale) {
 		this.locale = locale;
 		this.zulipMessage = zulipMessage;
