@@ -2,6 +2,7 @@ package de.servicezombie.zulip;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.annotation.Metric;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.util.Base64;
 
 import de.servicezombie.rundeck.LoggingRestClientFilter;
@@ -45,7 +48,14 @@ public class ResteasyClientStrategy implements RestClientStrategy {
 
 	@Override
 	public void send(ZulipRequest message) {
-		final Client client = ClientBuilder.newClient();
+		final ResteasyClient client = new ResteasyClientBuilder()
+				.connectionPoolSize(5)
+				.connectionTTL(500, TimeUnit.MILLISECONDS)
+				.disableTrustManager()
+				.connectTimeout(2, TimeUnit.SECONDS)
+				.readTimeout(5, TimeUnit.SECONDS)
+				.build();
+		
 
 		final ZulipEndpoint endpoint = message.getEndpoint();
 
