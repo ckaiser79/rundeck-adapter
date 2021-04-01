@@ -58,7 +58,7 @@ public class NotificationToZulipMessageTransformer {
 		if (LOG.isTraceEnabled())
 			LOG.trace("readTemplate: >> {}, {}", notification, contextFactory);
 
-		final String templateName = "rundeck." + notification.getStatus();
+		final String templateName = "rundeck." + notification.getTrigger();
 		String result;
 
 		try (final StringWriter out = new StringWriter()) {
