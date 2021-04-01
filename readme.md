@@ -37,6 +37,12 @@ For a sample body see this [sample-notification](rundeck-zulip-adapter/src/test/
 
 To view the metrics, visit `http://localhost:8080/rundeck-adapter/metrics`
 
+## Configure Rundeck
+
+![rundeck-notification.jpg](src/site/resources/rundeck-notification.jpg)
+
+_Use rundeck to send notifications to the rundeck-adapter webapp._
+
 # Logging
 
 Set the log level of these classes to TRACE, to see everything, use this jboss cli commands:
