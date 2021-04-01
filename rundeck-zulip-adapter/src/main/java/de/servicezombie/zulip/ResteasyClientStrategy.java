@@ -6,45 +6,28 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.InvocationCallback;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
-import org.eclipse.microprofile.metrics.Counter;
-import org.eclipse.microprofile.metrics.annotation.Metric;
+import org.eclipse.microprofile.metrics.MetricRegistry;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.util.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.servicezombie.rundeck.LoggingRestClientFilter;
 
 @Named
 public class ResteasyClientStrategy implements RestClientStrategy {
 
-	private final class InvocationCallbackImplementation implements InvocationCallback<Object> {
-		@Override
-		public void completed(Object response) {
-			messagesSendCounter.inc();
-		}
+	static final Logger LOG = LoggerFactory.getLogger(ResteasyClientStrategy.class);
 
-		@Override
-		public void failed(Throwable throwable) {
-			messagesFailCounter.inc();
-		}
-	}
-
-	@Inject
-	@Metric(name = "messages-send-counter")
-	private Counter messagesSendCounter;
-
-	@Inject
-	@Metric(name = "messages-fail-counter")
-	private Counter messagesFailCounter;
+	@Inject 
+	private MetricRegistry metricRegistry;
 
 	@Override
 	public void send(ZulipRequest message) {
@@ -55,7 +38,6 @@ public class ResteasyClientStrategy implements RestClientStrategy {
 				.connectTimeout(2, TimeUnit.SECONDS)
 				.readTimeout(5, TimeUnit.SECONDS)
 				.build();
-		
 
 		final ZulipEndpoint endpoint = message.getEndpoint();
 
@@ -72,21 +54,23 @@ public class ResteasyClientStrategy implements RestClientStrategy {
 		form.param("topic", message.getTopic());
 		form.param("type", message.getType().toString().toLowerCase());
 		form.param("content", message.getContent());
-		
+
+		LOG.debug("submit rest request to zulip {}", endpoint);
+
 		target.request()
 				.header(HttpHeaders.AUTHORIZATION, authHeader)
 				.buildPost(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED))
-				.submit(new InvocationCallbackImplementation());
+				.submit(new MetricsInvocationCallback(metricRegistry, message.getJobName()));
 
 	}
 
 	private String toArrayString(String[] to) {
-		if(to == null)
+		if (to == null)
 			return "[]";
-		
+
 		final Iterable<String> iterable = Arrays.asList(to);
 		return "[" + org.thymeleaf.util.StringUtils.join(iterable, ',') + "]";
-		
+
 	}
 
 }

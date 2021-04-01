@@ -9,7 +9,8 @@ public class ZulipRequest {
 	private String[] to;
 	private String topic;
 	private String content;
-
+	private String jobName;
+	
 	private final ZulipEndpoint endpoint;
 
 	public ZulipRequest(ZulipEndpoint endpoint) {
@@ -18,7 +19,7 @@ public class ZulipRequest {
 
 	@Override
 	public String toString() {
-		return "ZulipRequest [type=" + type + ", to=" + Arrays.toString(to) + ", topic=" + topic + ", content="
+		return "ZulipRequest ["+ "jobName=" + jobName + "type=" + type + ", to=" + Arrays.toString(to) + ", topic=" + topic + ", content="
 				+ (content != null ? content.length() : null) + ", endpoint=" + endpoint + "]";
 	}
 
@@ -56,6 +57,14 @@ public class ZulipRequest {
 
 	public ZulipEndpoint getEndpoint() {
 		return endpoint;
+	}
+	
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
+	
+	public String getJobName() {
+		return jobName;
 	}
 
 }

@@ -2,11 +2,14 @@ package de.servicezombie.zulip;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.templatemode.TemplateMode;
 
+import de.servicezombie.rundeck.Execution;
+import de.servicezombie.rundeck.Job;
 import de.servicezombie.rundeck.Notification;
 import de.servicezombie.thymeleaf.TemplateWriter;
 import de.servicezombie.thymeleaf.ThymeleadContextFactory;
@@ -41,6 +44,17 @@ public class NotificationToZulipMessageTransformer {
 		result.setType(ZulipType.STREAM);
 		result.setTo(stream.split("[,: ]"));
 		result.setTopic(topic);
+		
+		List<Execution> executions = notification.getExecutions();
+		if(!executions.isEmpty()) {
+			final Execution execution = executions.get(0);
+			final Job job = execution.getJob();
+			if(job != null) {
+				result.setJobName(job.getGroup() + "/" + job.getName());
+			}
+			
+		}
+		
 
 		return result;
 	}
