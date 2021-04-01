@@ -11,8 +11,8 @@ My motivation was to get some hands on java microprofile - especially metrics an
 ## Modules
 
 - `rundeck-adapter-base` - api and utilities
-- `rundeck-zulip-adapter` - logic to send messages to zulip, [templates](src/main/resources/templates)
-- `rundeck-adapter-app` - servlet dependencies, rest controller, [default configuration file](src/main/resources/META-INF/microprofile-config.properties)
+- `rundeck-zulip-adapter` - logic to send messages to zulip, [templates](rundeck-zulip-adapter/src/main/resources/templates)
+- `rundeck-adapter-app` - servlet dependencies, rest controller, [default configuration file](rundeck-adapter-app/src/main/resources/META-INF/microprofile-config.properties)
 
 # Compile
 
