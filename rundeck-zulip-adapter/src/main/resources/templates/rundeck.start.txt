@@ -1,0 +1,6 @@
+
+Job Started: 
+
+[# th:each="r : ${notification.executions}"]
+  * [${r.id} ${r.status}](${r.permalink})
+[/]
