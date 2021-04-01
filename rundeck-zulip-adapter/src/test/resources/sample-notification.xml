@@ -1,0 +1,21 @@
+<notification trigger='success' status='succeeded' executionId='2'>
+  <executions count='1'>
+    <execution id='2' href='http://DESKTOP-IAQJS1M:4440/project/test/execution/follow/2' permalink='' status='succeeded' project='test'>
+      <user>admin</user>
+      <date-started unixtime='1617274186833'>2021-04-01T10:49:46Z</date-started>
+      <date-ended unixtime='1617274187247'>2021-04-01T10:49:47Z</date-ended>
+      <job id='5f0b74c6-bc38-4c85-8ff9-2e036d5578fa' averageDuration='1039' href='http://DESKTOP-IAQJS1M:4440/api/38/job/5f0b74c6-bc38-4c85-8ff9-2e036d5578fa' permalink='http://DESKTOP-IAQJS1M:4440/project/test/job/show/5f0b74c6-bc38-4c85-8ff9-2e036d5578fa'>
+        <name>test</name>
+        <group>testgroup</group>
+        <project>test</project>
+        <description></description>
+      </job>
+      <description>dir ('dir')</description>
+      <argstring />
+      <serverUUID>0410e137-8b52-4ec8-a1fa-ed5db916d2ff</serverUUID>
+      <successfulNodes>
+        <node name='DESKTOP-IAQJS1M' />
+      </successfulNodes>
+    </execution>
+  </executions>
+</notification>

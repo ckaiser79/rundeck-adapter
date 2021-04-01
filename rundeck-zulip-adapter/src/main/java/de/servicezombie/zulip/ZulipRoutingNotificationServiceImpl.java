@@ -34,7 +34,8 @@ public class ZulipRoutingNotificationServiceImpl implements NotificationService 
 		
 		final ZulipRequest message = transformer.transform(notification);
 
-		strategy.send(message);
+		if(message != null)
+			strategy.send(message);
 
 	}
 

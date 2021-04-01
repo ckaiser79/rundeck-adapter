@@ -1,6 +1,5 @@
 package de.servicezombie.zulip;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -32,28 +31,22 @@ public class NotificationToZulipMessageTransformer {
 
 	public ZulipRequest transform(Notification notification) {
 
-		ZulipRequest result= new ZulipRequest(endpoint);
+		ZulipRequest result = new ZulipRequest(endpoint);
 
 		final ThymeleadContextFactory contextFactory = new ZulipMessageThymeleafContextFactory(result, notification);
-		try {			
-			
-			final String message = readTemplate(notification, contextFactory);
-			
-			result.setContent(message);
-			result.setType(ZulipType.STREAM);
-			result.setTo(stream.split("[,: ]"));
-			result.setTopic(topic);
 
-		}
-		catch(FileNotFoundException e) {
-			LOG.warn("file does not exist for {}", notification);
-			result = null;
-		}
+		final String message = readTemplate(notification, contextFactory);
+
+		result.setContent(message);
+		result.setType(ZulipType.STREAM);
+		result.setTo(stream.split("[,: ]"));
+		result.setTopic(topic);
 
 		return result;
 	}
 
-	private String readTemplate(final Notification notification, final ThymeleadContextFactory contextFactory) throws FileNotFoundException {
+	private String readTemplate(final Notification notification, final ThymeleadContextFactory contextFactory)
+			{
 
 		if (LOG.isTraceEnabled())
 			LOG.trace("readTemplate: >> {}, {}", notification, contextFactory);
@@ -66,8 +59,6 @@ public class NotificationToZulipMessageTransformer {
 
 			templateWriter.write(contextFactory, out);
 			result = out.toString();
-		} catch (FileNotFoundException e) {
-			throw e;
 		} catch (IOException e) {
 			LOG.error(e.getMessage(), e);
 			result = null;
